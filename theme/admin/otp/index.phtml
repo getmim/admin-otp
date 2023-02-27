@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white navbar-shadow">
+    <div class="navbar-multiline mr-auto">
+        <span class="navbar-brand" href="#0">OTP Viewer</span>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?= $this->router->to('adminHome') ?>">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">OTP</li>
+            </ol>
+        </nav>
+    </div>
+</nav>
+
+<div class="container p-3">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <form method="GET" class="card-body">
+                    <h5 class="card-title">Search</h5>
+                    <?= $form->field('q') ?>
+                    <div class="text-right">
+                        <button class="btn btn-primary">Find</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div>Total item: <?= number_format($total); ?></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <?php if($objects): ?>
+                <ul class="list-group list-group-flush card mb-3">
+                    <?php foreach($objects as $object): ?>
+                        <li class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">
+                                    <?= $object->identity->safe ?>
+                                </h5>
+                                <div>
+                                    <?= $object->otp->safe ?>
+                                </div>
+                            </div>
+                            <small>
+                                <span title="Created">
+                                    <i class="far fa-calendar-plus"></i>
+                                    <?= $object->created->format('M d, Y H:i') ?>
+                                </span>
+                                &middot;
+                                <span title="Expires">
+                                    <i class="far fa-calendar-times"></i>
+                                    <?= $object->expires->format('M d, Y H:i') ?>
+                                </span>
+                            </small>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+
+            <?php if($pages): ?>
+                <?= $this->partial('shared/pagination', ['pages'=>$pages, 'align'=>'right']); ?>
+            <?php endif; ?>
+        </div>
+
+    </div>
+</div>
